@@ -1,0 +1,36 @@
+name: flake8
+
+on:
+   # Trigger the workflow on push or pull request,
+   # but only for the master branch
+   push:
+     branches:
+       - master
+   pull_request:
+     branches:
+       - master
+
+jobs:
+  flake8: # This job runs flake8 to check code style
+
+    runs-on: ubuntu-latest # Use the latest Ubuntu runner
+
+    steps: # Steps represent a sequence of tasks that will be executed as part of the job
+    - uses: actions/checkout@v4 # Check out the repository code
+
+    # Set up Python 3.13 environment
+    - name: Set up Python 3.13 
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.13"
+
+    # Install dependencies
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install flake8
+
+    # Run flake8
+    - name: Lint with flake8
+      run: |
+        flake8 .
